@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+const int INF = INT_MAX;
+
+void printMatrix(const vector<vector<int>>& matrix) {
+    for (const auto& row : matrix) {
+        for (int val : row) {
+            if (val == INF) cout << "INF ";
+            else cout << val << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    vector<vector<int>> adjMatrix = {
+        {0, 16, 24, 33},
+        {16, 0, 18, 26},
+        {24, 18, 0, 30},
+        {33, 26, 30, 0}
+    };
+
+    cout << "Adjacency Matrix:" << endl;
+    printMatrix(adjMatrix);
+
+    // Implementing Floyd-Warshall Algorithm for shortest paths
+    int n = adjMatrix.size();
+    vector<vector<int>> dist = adjMatrix;
+
+    for (int k = 0; k < n; ++k) {
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+
+    cout << "Shortest Path Matrix:" << endl;
+    printMatrix(dist);
+
+    return 0;
+}
