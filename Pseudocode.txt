@@ -1,0 +1,38 @@
+BEGIN
+
+  // Constants
+  DEFINE INF as a large number (infinity)
+  
+  // Initialize adjacency matrix with distances between cities
+  CREATE adjMatrix as a 2D array with values:
+    [0, 16, 24, 33]
+    [16, 0, 18, 26]
+    [24, 18, 0, 30]
+    [33, 26, 30, 0]
+
+  // Print Adjacency Matrix
+  PRINT "Adjacency Matrix:"
+  CALL printMatrix(adjMatrix)
+
+  // Number of cities
+  SET n to size of adjMatrix
+
+  // Initialize distance matrix with adjacency matrix values
+  SET dist to adjMatrix
+
+  // Floyd-Warshall Algorithm for shortest paths
+  FOR k FROM 0 TO n-1 DO
+    FOR i FROM 0 TO n-1 DO
+      FOR j FROM 0 TO n-1 DO
+        IF dist[i][k] is not INF AND dist[k][j] is not INF AND dist[i][k] + dist[k][j] < dist[i][j] THEN
+          SET dist[i][j] to dist[i][k] + dist[k][j]
+        END IF
+      END FOR
+    END FOR
+  END FOR
+
+  // Print Shortest Path Matrix
+  PRINT "Shortest Path Matrix:"
+  CALL printMatrix(dist)
+
+END
